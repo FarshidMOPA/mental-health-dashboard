@@ -12,7 +12,8 @@ public class InvalidAssessmentException extends Exception {
     public int getInvalidValue() {return invalidValue;}
     @Override
     public String toString() {
-        return "InvalidAssessmentException:/n   testId=" + testID +
+        return "InvalidAssessmentException:" +
+                "/n   testId=" + testID +
                 "/n   invalidValue=" + invalidValue +
                 "/n   message=" + getMessage();
     }

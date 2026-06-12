@@ -1,7 +1,7 @@
 package com.mentalhealthdashboard.assessment;
 
 import com.mentalhealthdashboard.exceptions.InvalidAssessmentException;
-import com.mentalhealthdashboard.exceptions.EmergencyInterventionException;
+
 import java.time.LocalDateTime;
 
 public abstract class PsychometricTest {
@@ -9,6 +9,7 @@ public abstract class PsychometricTest {
     protected String patientId;
     protected int totalScore;
     protected LocalDateTime timestamp;
+    public boolean emergencyFlag;
 
     public PsychometricTest(String testId, String patientId) {
         this.testId    = testId;
@@ -16,11 +17,14 @@ public abstract class PsychometricTest {
         this.totalScore = 0;
         this.timestamp  = LocalDateTime.now();
     }
-    public abstract void evaluateAnswers(int[] answers) throws InvalidAssessmentException, EmergencyInterventionException;
+    public abstract void evaluateAnswers(int[] answers) throws InvalidAssessmentException;
     public String getSummary() {
         return "[" + testId + "] Patient: " + patientId + " | Score: " + totalScore + " | Time: " + timestamp;
     }
-    public
+    public boolean isEmergency() {
+
+        return emergencyFlag;
+    }
 
     public String getTestId()      { return testId; }
     public String getPatientId()   { return patientId; }
