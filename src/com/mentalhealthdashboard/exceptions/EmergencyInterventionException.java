@@ -8,13 +8,13 @@ public class EmergencyInterventionException extends RuntimeException {
         super(message);
         this.patientID = patientID;
         this.riskLevel = riskLevel;
-    }
+    } //constr.
     public String getPatientID() {return patientID;}
     public RiskLevel getRiskLevel() {return riskLevel;}
     @Override
-    public String getMessage() {
-        return "EmergencyInterventionException [patientId=" + patientID +
-                ", riskLevel=" + riskLevel +
-                ", message=" + getMessage() + "]";
+    public String toString() {
+        return "EmergencyInterventionException:/n   patientId=" + patientID +
+                "/n   riskLevel=" + riskLevel +
+                "/n   message=" + getMessage();
     }
-}
+}//unchecked exception extend from runtime Excp.
