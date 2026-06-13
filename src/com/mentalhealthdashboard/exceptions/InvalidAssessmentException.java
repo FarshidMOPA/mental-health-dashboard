@@ -3,7 +3,7 @@ package com.mentalhealthdashboard.exceptions;
 public class InvalidAssessmentException extends Exception {
     private final String testID;
     private final int invalidValue;
-    public InvalidAssessmentException(String testID, int invalidValue,  String message) {
+    public InvalidAssessmentException(String testID, int invalidValue, String message) {
         super(message);
         this.testID = testID;
         this.invalidValue = invalidValue;

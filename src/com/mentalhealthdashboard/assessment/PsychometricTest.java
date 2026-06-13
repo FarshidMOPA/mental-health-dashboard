@@ -9,23 +9,56 @@ public abstract class PsychometricTest {
     protected String patientId;
     protected int totalScore;
     protected LocalDateTime timestamp;
-    public boolean emergencyFlag;
+    protected boolean emergencyFlag;
+    public enum SeverityLevel {
+        MINIMAL,
+        MILD,
+        MODERATE,
+        MODERATELY_SEVERE,
+        SEVERE
+    }
+    protected final int QUESTION_COUNT;
+    protected final int MIN_ANSWER;
+    protected final int MAX_ANSWER;
 
-    public PsychometricTest(String testId, String patientId) {
+    public PsychometricTest(String testId, String patientId, int QUESTION_COUNT, int MIN_ANSWER, int  MAX_ANSWER) {
         this.testId    = testId;
         this.patientId = patientId;
         this.totalScore = 0;
         this.timestamp  = LocalDateTime.now();
-    }
-    public abstract void evaluateAnswers(int[] answers) throws InvalidAssessmentException;
-    public String getSummary() {
-        return "[" + testId + "] Patient: " + patientId + " | Score: " + totalScore + " | Time: " + timestamp;
-    }
-    public boolean isEmergency() {
-
-        return emergencyFlag;
+        this.emergencyFlag = false;
+        this.QUESTION_COUNT = QUESTION_COUNT;
+        this.MIN_ANSWER = MIN_ANSWER;
+        this.MAX_ANSWER = MAX_ANSWER;
     }
 
+    public void evaluateAnswers(int[] answers) throws InvalidAssessmentException{
+        if (answers == null || answers.length != QUESTION_COUNT) {
+            int invalidLength;
+            if (answers == null) {
+                invalidLength = -1;
+            } else {
+                invalidLength = answers.length;
+            }
+            throw new InvalidAssessmentException(testId, invalidLength, testId + " requires exactly " + QUESTION_COUNT+" answers.");
+        }
+        for (int i = 0; i < answers.length; i++) {
+            if (answers[i] < MIN_ANSWER || answers[i] > MAX_ANSWER) {
+                throw new InvalidAssessmentException(testId,answers[i], "Answer at question " + (i + 1) + " is out of range. " + "Expected " + MIN_ANSWER + "-" + MAX_ANSWER +", got: " + answers[i]);
+            }
+        }
+
+        totalScore = 0;
+        for (int a : answers) {
+            totalScore += a;
+        }
+        checkEmergency(answers);
+    }
+    public abstract SeverityLevel interpretSeverity();
+    public abstract void checkEmergency(int[] answers);
+
+    public String getSummary() {return "[" + testId + "] Patient: " + patientId + " | Score: " + totalScore + " | Time: " + timestamp;}
+    public boolean isEmergency() {return emergencyFlag;}
     public String getTestId()      { return testId; }
     public String getPatientId()   { return patientId; }
     public int getTotalScore()     { return totalScore; }
