@@ -1,7 +1,7 @@
 package com.mentalhealthdashboard.assessment;
 
 public class PHQ9Assessment extends PsychometricTest{
-    public PHQ9Assessment(String testId, String patientId) {super(testId, patientId, 9, 0, 3);}
+    public PHQ9Assessment(String testId, String patientId) {super("PHQ9", testId, patientId, 9, 0, 3);}
 
     public SeverityLevel interpretSeverity() {
         if (totalScore <= 4)  return SeverityLevel.MINIMAL;

@@ -20,8 +20,10 @@ public abstract class PsychometricTest {
     protected final int QUESTION_COUNT;
     protected final int MIN_ANSWER;
     protected final int MAX_ANSWER;
+    protected final String testName;
 
-    public PsychometricTest(String testId, String patientId, int QUESTION_COUNT, int MIN_ANSWER, int  MAX_ANSWER) {
+    public PsychometricTest(String testName, String testId, String patientId, int QUESTION_COUNT, int MIN_ANSWER, int  MAX_ANSWER) {
+
         this.testId    = testId;
         this.patientId = patientId;
         this.totalScore = 0;
@@ -30,6 +32,7 @@ public abstract class PsychometricTest {
         this.QUESTION_COUNT = QUESTION_COUNT;
         this.MIN_ANSWER = MIN_ANSWER;
         this.MAX_ANSWER = MAX_ANSWER;
+        this.testName = testName;
     }
 
     public void evaluateAnswers(int[] answers) throws InvalidAssessmentException{
@@ -40,7 +43,7 @@ public abstract class PsychometricTest {
             } else {
                 invalidLength = answers.length;
             }
-            throw new InvalidAssessmentException(testId, invalidLength, testId + " requires exactly " + QUESTION_COUNT+" answers.");
+            throw new InvalidAssessmentException(testId, invalidLength, testName + " requires exactly " + QUESTION_COUNT+" answers.");
         }
         for (int i = 0; i < answers.length; i++) {
             if (answers[i] < MIN_ANSWER || answers[i] > MAX_ANSWER) {
@@ -63,4 +66,5 @@ public abstract class PsychometricTest {
     public String getPatientId()   { return patientId; }
     public int getTotalScore()     { return totalScore; }
     public LocalDateTime getTimestamp() { return timestamp; }
+    public String getTestName() { return testName; }
 }

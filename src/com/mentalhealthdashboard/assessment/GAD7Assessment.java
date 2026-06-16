@@ -3,7 +3,7 @@ package com.mentalhealthdashboard.assessment;
 public class GAD7Assessment extends PsychometricTest {
 
     public GAD7Assessment(String testId, String patientId) {
-        super(testId, patientId, 7, 0, 3);
+        super("GAD7",testId, patientId, 7, 0, 3);
     }
 
     @Override
